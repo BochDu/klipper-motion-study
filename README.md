@@ -25,28 +25,35 @@ klipper-motion-study/
 └── scripts/run-sim.sh  # 一键构建 host simulator + 批处理跑一遍 + 解码下发指令
 ```
 
-## 快速开始（Ubuntu / WSL）
+## 快速开始
+
+运行环境：Linux（Ubuntu / WSL），需要 `make`、`gcc`、`python3`。不接打印机、不接开发板。
 
 ```bash
-# 0. 克隆（含子模块）
-git clone --recursive https://github.com/BochDu/klipper-motion-study.git
-cd klipper-motion-study
-
-# 1. 首次：编译 MCU 端 host simulator，得到 out/klipper.dict
-cd klipper && make distclean && cp test/configs/hostsimulator.config .config \
-  && make olddefconfig && make -j"$(nproc)" && cd ..
-
-# 2. 批处理跑一遍演示（-i 输入 gcode，-o 协议输出，无需真实串口）
-python3 klipper/klippy/klippy.py sim/host-sim.cfg \
-  -i sim/demo.gcode -o sim/out-serial.log \
-  -d klipper/out/klipper.dict -l sim/klippy.log
-
-# 3. 解码 klippy 下发到 MCU 的指令
-cd klipper/klippy && python3 parsedump.py ../out/klipper.dict ../../sim/out-serial.log
+sudo apt update
 ```
 
-等价的一键脚本：`bash scripts/run-sim.sh`。
-依赖：`make`、`gcc`、`python3`（klippy 的 Python 依赖见 `klipper/scripts/klippy-requirements.txt`）。
+```bash
+sudo apt install -y build-essential python3 python3-pip python3-dev libffi-dev
+```
+
+拉取 Klipper 子模块：
+
+```bash
+git submodule update --init --recursive
+```
+
+安装 Python 依赖：
+
+```bash
+python3 -m pip install -r klipper/scripts/klippy-requirements.txt
+```
+
+构建 host simulator，批处理跑 `sim/demo.gcode`，并解码下发指令：
+
+```bash
+bash scripts/run-sim.sh
+```
 
 ## 版本锚点
 
