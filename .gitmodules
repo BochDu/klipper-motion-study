@@ -1,0 +1,4 @@
+[submodule "klipper"]
+	path = klipper
+	url = https://github.com/Klipper3d/klipper.git
+	shallow = true

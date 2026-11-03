@@ -1,0 +1,6 @@
+# 统一 LF：脚本要在 WSL/Linux 里直接执行，CRLF 会让 shebang 失效
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.cfg text eol=lf
+*.gcode text eol=lf
