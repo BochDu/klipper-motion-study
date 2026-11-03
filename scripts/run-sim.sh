@@ -27,4 +27,4 @@ python3 "$KLIPPER/klippy/klippy.py" "$ROOT/sim/host-sim.cfg" \
 
 echo "==> 解码 klippy 下发到 MCU 的指令（前 40 行）"
 cd "$KLIPPER/klippy"
-python3 parsedump.py ../out/klipper.dict "$ROOT/sim/out-serial.log" | head -40
+python3 parsedump.py ../out/klipper.dict "$ROOT/sim/out-serial.log" | sed -n '1,40p'
