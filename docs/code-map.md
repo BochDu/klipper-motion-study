@@ -6,11 +6,13 @@
 
 ```
 G1 (gcode)
-  └─ klippy/extras/gcode_move.py        GCodeMove：解析、坐标系/偏移变换、转机器坐标
+  └─ klippy/extras/gcode_move.py        GCodeMove：解析、坐标系/偏移变换
       └─ klippy/toolhead.py             ToolHead.move() → Move + LookAheadQueue（前瞻/JD/梯形）
-          └─ klippy/kinematics/*.py     运动学：机器坐标 → 各轴位置
-              └─ klippy/chelper/trapq.c 轨迹队列（多 move 拼统一打印时间轴）
-                  └─ klippy/chelper/stepcompress.c   pos(t) → step 时间戳 + 压缩
+          ├─ klippy/kinematics/*.py     check_move() 审核 + setup_itersolve() 注册 IK 位置公式
+          │                             （旁路，不批量逆解；公式实体在 chelper/kin_*.c）
+          └─ klippy/chelper/trapq.c     轨迹队列：pos(t) 解析式 + 统一打印时间轴
+              └─ klippy/chelper/itersolve.c   每 stepper 求根：由 IK 公式反求「第 N 步的时刻」
+                  └─ klippy/chelper/stepcompress.c  step 绝对时刻 → queue_step{interval,count,add}
                       └─ klippy/chelper/steppersync.c / serialqueue.c   打包、流控、绝对时钟戳
                           └─ src/sched.c + src/stepper.c   MCU 事件堆调度、按时序翻转 step 引脚
 ```
@@ -24,7 +26,7 @@ G1 (gcode)
 | 前瞻与梯形规划 | `klippy/lookahead.py` | **已并入** `klippy/toolhead.py`（`class LookAheadQueue`，`add_move` / `flush`） |
 | 轨迹队列（Python 侧） | `klippy/trapq.py` | **已移除**；`trapq` 由 `klippy/extras/motion_queuing.py`（`allocate_trapq`）创建，Python 侧只透传 `toolhead.get_trapq()` |
 | 轨迹队列（C 侧） | `chelper/trapq.c` | `klippy/chelper/trapq.c` |
-| 运动学逆解 | `klippy/kinematics/*.py` | 同名，`klippy/kinematics/*.py` + `klippy/chelper/kin_*.c` / `itersolve.c` |
+| IK 位置公式（笛卡尔坐标 → 电机位置） | `klippy/kinematics/*.py` | **公式实体在 `klippy/chelper/kin_*.c`**（`cartesian_stepper_alloc` / `corexy_stepper_alloc` / `delta_stepper_alloc`），由 `chelper/itersolve.c` 求根时单点调用；Python 侧只在 `cartesian.py:19` 注册，不批量求解 |
 | 插补 + 压缩 | `chelper/stepcompress.c` | `klippy/chelper/stepcompress.c` |
 | stepcompress Python 封装 | `klippy/stepper.py` | `klippy/stepper.py`（`class MCU_stepper`，FFI 直调 `stepcompress_*`） |
 | MCU 打包 / oid | `klippy/mcu.c`（实为 `mcu.py`） | `klippy/mcu.py` |

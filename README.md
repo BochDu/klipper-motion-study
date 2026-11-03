@@ -12,7 +12,8 @@ Klipper 运动控制链路（**规划 → 插补 → 序列下发 → MCU 时序
 | [docs/plan.md](docs/plan.md) | 初衷、目标、考核节点、三周每日计划 |
 | [docs/environment.md](docs/environment.md) | 环境搭建、host simulator 构建、批处理跑通 G1、踩坑记录 |
 | [docs/code-map.md](docs/code-map.md) | 计划里的旧路径 → 本仓库版本的**实际**路径对照 |
-| [notes/README.md](notes/README.md) | 每日记录的命名约定与索引 |
+| [docs/dataflow.md](docs/dataflow.md) | 全链路数据流图（1-1 产出）：三层职责、G1 实测调用栈、层间边界 |
+| [notes/README.md](notes/README.md) | 每日记录约定（六段式 + **自测规范**）与索引 |
 
 ## 目录结构
 
@@ -22,7 +23,8 @@ klipper-motion-study/
 ├── docs/               # 计划、环境、源码地图
 ├── notes/              # 按日期记录：YYYY-MM-DD.md
 ├── sim/                # 可复现的模拟器配置与演示 G 代码（运行产物不入库）
-└── scripts/run-sim.sh  # 一键构建 host simulator + 批处理跑一遍 + 解码下发指令
+├── scripts/run-sim.sh  # 一键构建 host simulator + 批处理跑一遍 + 解码下发指令
+└── scripts/trace-g1.py # 规划层打点：打印 G1 调用栈、Move 字段、trapq_append 入参
 ```
 
 ## 快速开始
@@ -68,7 +70,7 @@ bash scripts/run-sim.sh
 
 | 天 | 主题 | 状态 | 记录 |
 | -- | ---- | ---- | ---- |
-| 1-1 | 全链路全景 + G1 通路 | 进行中（环境与端到端已跑通） | [2026-11-02](notes/2026-11-02.md) |
+| 1-1 | 全链路全景 + G1 通路 | 已完成 | [2026-11-02](notes/2026-11-02.md)（环境）、[2026-11-03](notes/2026-11-03.md)（调用栈与数据流图） |
 | 1-2 | gcode_move 坐标 + 运动学逆解 | 未开始 | - |
 | 1-3 | Lookahead 单段梯形速度 | 未开始 | - |
 | 1-4 | Lookahead JD 拐角 | 未开始 | - |
