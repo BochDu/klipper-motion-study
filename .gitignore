@@ -1,5 +1,7 @@
 # 本地运行产物（klippy 日志、协议转储）
 sim/*.log
+sim/lab/*.log
 *.pyc
 __pycache__/
 .venv/
+.vscode/

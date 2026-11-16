@@ -1,0 +1,7 @@
+; 1-3 前瞻实验：长-短-长 三段，中间 2 mm 迫使梯形退化为三角
+SET_KINEMATIC_POSITION X=0 Y=0 Z=0
+G90
+G1 X50 F6000
+G1 X50 Y2 F6000
+G1 X150 Y2 F6000
+M400

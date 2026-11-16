@@ -23,6 +23,7 @@ klipper-motion-study/
 ├── docs/               # 计划、环境、源码地图
 ├── notes/              # 按日期记录：YYYY-MM-DD.md
 ├── sim/                # 可复现的模拟器配置与演示 G 代码（运行产物不入库）
+│   └── lab/            # 1-2 / 1-3 对照实验（corexy 配置、前瞻打点脚本与 gcode）
 ├── scripts/run-sim.sh  # 一键构建 host simulator + 批处理跑一遍 + 解码下发指令
 └── scripts/trace-g1.py # 规划层打点：打印 G1 调用栈、Move 字段、trapq_append 入参
 ```
@@ -71,8 +72,8 @@ bash scripts/run-sim.sh
 | 天 | 主题 | 状态 | 记录 |
 | -- | ---- | ---- | ---- |
 | 1-1 | 全链路全景 + G1 通路 | 已完成 | [2026-11-02](notes/2026-11-02.md)（环境）、[2026-11-03](notes/2026-11-03.md)（调用栈与数据流图） |
-| 1-2 | gcode_move 坐标 + IK 位置公式 | 未开始 | - |
-| 1-3 | Lookahead 单段梯形速度 | 未开始 | - |
+| 1-2 | gcode_move 坐标 + IK 位置公式 | 已完成 | [2026-11-05](notes/2026-11-05.md)（坐标/倍率）、[2026-11-16](notes/2026-11-16.md)（Move 字段与 IK 对照） |
+| 1-3 | Lookahead 单段梯形速度 | 进行中 | [2026-11-16](notes/2026-11-16.md)（flush 两趟扫描） |
 | 1-4 | Lookahead JD 拐角 | 未开始 | - |
 | 1-5 | trapq 轨迹队列 | 未开始 | - |
 | 2-1 | stepcompress 插补采样 | 未开始 | - |
