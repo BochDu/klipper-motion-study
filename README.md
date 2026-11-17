@@ -23,7 +23,7 @@ klipper-motion-study/
 ├── docs/               # 计划、环境、源码地图
 ├── notes/              # 按日期记录：YYYY-MM-DD.md
 ├── sim/                # 可复现的模拟器配置与演示 G 代码（运行产物不入库）
-│   └── lab/            # 1-2 / 1-3 对照实验（corexy 配置、前瞻打点脚本与 gcode）
+│   └── lab/            # 1-2 / 1-3 / 2-3 对照实验（corexy 配置、前瞻与流控打点脚本、gcode）
 ├── scripts/run-sim.sh  # 一键构建 host simulator + 批处理跑一遍 + 解码下发指令
 └── scripts/trace-g1.py # 规划层打点：打印 G1 调用栈、Move 字段、trapq_append 入参
 ```
@@ -78,7 +78,7 @@ bash scripts/run-sim.sh
 | 1-5 | trapq 轨迹队列 | 未开始 | - |
 | 2-1 | stepcompress 插补采样 | 未开始 | - |
 | 2-2 | stepcompress 步事件压缩 | 未开始 | - |
-| 2-3 | serialqueue + 流控背压 | 未开始 | - |
+| 2-3 | serialqueue + 流控背压 | 已完成 | [2026-11-17](notes/2026-11-17.md)（提前学：三道闸门 + 三级队列实测） |
 | 2-4 | clock_sync 时钟同步 | 未开始 | - |
 | 2-5 | 异常链路（短/零长 move、M112） | 未开始 | - |
 | 3-1 | MCU sched 调度器 | 未开始 | - |
